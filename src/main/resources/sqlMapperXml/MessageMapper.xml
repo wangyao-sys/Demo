@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kanghua.mapper.MessageMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.kanghua.model.Message">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="content" property="content" jdbcType="VARCHAR"/>
+		<result column="uid" property="uid" jdbcType="INTEGER"/>
+		<result column="hid" property="hid" jdbcType="INTEGER"/>
+		<result column="date" property="date" jdbcType="TIMESTAMP"/>
+		<result column="state" property="state" jdbcType="INTEGER"/>
+	</resultMap>
+
+    <select id="selectMessagePage" resultType="Map">
+     	SELECT m.* ,u.`name`AS uname FROM message m JOIN `user` u on m.uid=u.id
+     	
+     	<where> 
+            <if test=" title != null ">
+                m.title like  CONCAT(CONCAT('%',#{title}), '%')
+            </if>
+        </where> 
+    </select>
+</mapper>
